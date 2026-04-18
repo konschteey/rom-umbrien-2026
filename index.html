@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rom & Umbrien — Mai 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh}
+
+/* LOGIN */
+#pw-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f4f0;padding:1rem}
+.pw-wrap{width:100%;max-width:380px}
+.pw-top{text-align:center;margin-bottom:2rem}
+.pw-top .flag{font-size:48px;line-height:1;display:block;margin-bottom:1rem}
+.pw-top h1{font-size:22px;font-weight:500;color:#1a1a1a;margin-bottom:6px}
+.pw-top p{font-size:14px;color:#888}
+.pw-card{background:#fff;border:0.5px solid #e0e0e0;border-radius:16px;padding:2rem}
+.pw-label{font-size:12px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;display:block}
+.pw-input-wrap{margin-bottom:14px}
+.pw-input-wrap input{width:100%;padding:12px 16px;border:0.5px solid #ccc;border-radius:10px;font-size:16px;outline:none;background:#fafafa;color:#1a1a1a;letter-spacing:4px;font-family:inherit;transition:border-color .15s}
+.pw-input-wrap input::placeholder{letter-spacing:normal;color:#bbb}
+.pw-input-wrap input:focus{border-color:#C2452D;background:#fff}
+.pw-btn{width:100%;padding:13px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .15s}
+.pw-btn:hover{background:#333}
+.pw-btn:active{background:#C2452D}
+.pw-error{display:none;text-align:center;font-size:13px;color:#A32D2D;margin-top:12px;padding:10px;background:#FCEBEB;border-radius:8px}
+.pw-footer{text-align:center;font-size:12px;color:#bbb;margin-top:1.5rem}
+
+/* MAIN */
+#main{display:none}
+.container{max-width:820px;margin:0 auto;padding:1.5rem 1rem 4rem}
+.page-header h1{font-size:22px;font-weight:500;margin-bottom:4px}
+.page-header p{font-size:13px;color:#666;margin-bottom:1.5rem}
+
+/* TABS */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.2rem}
+.tab{padding:8px 14px;border:0.5px solid #ccc;border-radius:8px;font-size:13px;cursor:pointer;background:#fff;color:#555;transition:all .15s;user-select:none}
+.tab:hover{border-color:#C2452D;color:#C2452D}
+.tab.active{background:#C2452D;color:#fff;border-color:#C2452D;font-weight:500}
+.section{display:none}
+.section.active{display:block}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.2rem}
+.litem{display:flex;align-items:center;gap:5px;font-size:11px;color:#777}
+.ldot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* DAY ROWS */
+.day{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
+.daybadge{min-width:56px;font-size:11px;font-weight:500;padding:5px 6px;border-radius:7px;text-align:center;line-height:1.35;flex-shrink:0}
+.d-travel{background:#E6F1FB;color:#0C447C}
+.d-city{background:#EEEDFE;color:#3C3489}
+.d-wine{background:#FAECE7;color:#712B13}
+.d-nature{background:#EAF3DE;color:#27500A}
+.d-coast{background:#FAEEDA;color:#633806}
+.d-free{background:#F1EFE8;color:#444441}
+.daycard{flex:1;background:#fff;border:0.5px solid #e8e8e8;border-radius:8px;padding:10px 14px;min-width:0}
+.daytitle{font-size:14px;font-weight:500;margin-bottom:3px}
+.daysub{font-size:12px;color:#555;line-height:1.65}
+.pills{margin-top:6px;display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
+.p-tip{background:#E6F1FB;color:#0C447C}
+.p-food{background:#EAF3DE;color:#27500A}
+.p-wine{background:#FAECE7;color:#712B13}
+.p-warn{background:#FAEEDA;color:#633806}
+.p-culture{background:#EEEDFE;color:#3C3489}
+.p-map{background:#f0efe9;color:#1a1a1a;border:0.5px solid #ccc;text-decoration:none;cursor:pointer}
+.p-map:hover{background:#e0ded7}
+
+/* TRANSFER BANNER */
+.transfer{display:flex;align-items:center;gap:10px;background:#f9f8f5;border:0.5px solid #e0e0e0;border-radius:8px;padding:9px 14px;margin-bottom:9px;font-size:12px;color:#555}
+.transfer-icon{font-size:18px;flex-shrink:0}
+.transfer strong{color:#1a1a1a;font-weight:500}
+.transfer a{color:#C2452D;text-decoration:none;font-weight:500;margin-left:6px}
+.transfer a:hover{text-decoration:underline}
+
+.section-title{font-size:15px;font-weight:500;margin-bottom:.9rem;color:#1a1a1a}
+.section-note{font-size:13px;color:#666;margin-bottom:12px;line-height:1.6;background:#f9f8f5;border:0.5px solid #e0e0e0;border-radius:8px;padding:10px 14px}
+.divider{border:none;border-top:0.5px solid #e8e8e8;margin:1.4rem 0}
+
+/* HOTEL CARDS */
+.hotel-card{background:#fff;border:0.5px solid #e8e8e8;border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.hotel-card.top{border:2px solid #C2452D}
+.hotel-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.hotel-name{font-size:14px;font-weight:500}
+.hotel-loc{font-size:11px;color:#999;margin-top:1px}
+.hotel-score{text-align:right;flex-shrink:0}
+.hotel-score .score-num{font-size:20px;font-weight:500;color:#C2452D}
+.hotel-score .score-lbl{font-size:11px;color:#999}
+.hotel-body{font-size:12px;color:#555;line-height:1.65;margin-bottom:8px}
+.link-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ext-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#C2452D;text-decoration:none;border:0.5px solid #C2452D;border-radius:6px;padding:4px 10px}
+.ext-link:hover{background:#FAECE7}
+.ext-link.maps{color:#0C447C;border-color:#185FA5}
+.ext-link.maps:hover{background:#E6F1FB}
+
+/* WINE CARD */
+.wine-card{background:#fff;border:2px solid #C2452D;border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.wine-title{font-size:15px;font-weight:500;margin-bottom:6px}
+.wine-body{font-size:13px;color:#444;line-height:1.7;margin-bottom:10px}
+.wine-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wine-item{background:#fafaf8;border:0.5px solid #e8e8e8;border-radius:8px;padding:9px 11px;font-size:12px;color:#555}
+.wine-item strong{display:block;font-size:12px;font-weight:500;color:#1a1a1a;margin-bottom:2px}
+
+@media(max-width:520px){
+  .wine-grid{grid-template-columns:1fr}
+  .hotel-top{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="pw-screen">
+  <div class="pw-wrap">
+    <div class="pw-top">
+      <span class="flag">🇮🇹</span>
+      <h1>Rom &amp; Umbrien — Mai 2026</h1>
+      <p>Privater Reiseplan — bitte Passwort eingeben</p>
+    </div>
+    <div class="pw-card">
+      <label class="pw-label" for="pw-input">Passwort</label>
+      <div class="pw-input-wrap">
+        <input type="password" id="pw-input" placeholder="••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')checkPw()">
+      </div>
+      <button class="pw-btn" onclick="checkPw()">Weiter →</button>
+      <div class="pw-error" id="pw-error">Falsches Passwort — bitte nochmal versuchen.</div>
+    </div>
+    <div class="pw-footer">Nur für eingeladene Reisende</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+<div class="container">
+
+  <div class="page-header">
+    <h1>Rom &amp; Umbrien — Mai 2026</h1>
+    <p>12.–15. Mai &nbsp;·&nbsp; Wien → Rom → Orbetello → Civita di Bagnoregio → Orvieto → Rom &nbsp;·&nbsp; Mietauto</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="show('plan',this)">Reiseplan</div>
+    <div class="tab" onclick="show('hotels',this)">Hotels &amp; Alternativen</div>
+    <div class="tab" onclick="show('wine',this)">Weinverkostung &amp; Tipps</div>
+  </div>
+
+  <!-- ══════════════════ REISEPLAN ══════════════════ -->
+  <div id="plan" class="section active">
+
+    <div class="legend">
+      <div class="litem"><div class="ldot" style="background:#185FA5"></div>Transfer / Fahrt</div>
+      <div class="litem"><div class="ldot" style="background:#888"></div>Freizeit / eigene Planung</div>
+      <div class="litem"><div class="ldot" style="background:#D85A30"></div>Wein &amp; Genuss</div>
+      <div class="litem"><div class="ldot" style="background:#7F77DD"></div>Kultur &amp; Sehenswürdigkeit</div>
+      <div class="litem"><div class="ldot" style="background:#BA7517"></div>Küste &amp; Natur</div>
+    </div>
+
+    <!-- 12. MAI -->
+    <div class="section-title">Dienstag, 12. Mai — Ankunft Rom</div>
+
+    <div class="day">
+      <div class="daybadge d-travel">15:00<br>Ankunft</div>
+      <div class="daycard">
+        <div class="daytitle">Landung Fiumicino — Mietauto &amp; Transfer Trastevere</div>
+        <div class="daysub">Landung ~15:00. Mietauto-Abholung direkt am Flughafen (Terminal 3, alle großen Anbieter: Hertz, Avis, Europcar, Sixt). Fahrt ins Zentrum ~35–45 min. Parken in Trastevere: Parkhaus Gianicolo oder Lungotevere (Tagesrate ~15–20 €). Check-in Hotel.</div>
+        <div class="pills">
+          <a class="pill p-map" href="https://www.google.com/maps/dir/Aeroporto+di+Roma+Fiumicino/Trastevere,+Roma" target="_blank">Maps: FCO → Trastevere</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-free">Ab<br>17:00</div>
+      <div class="daycard">
+        <div class="daytitle">Abend in Trastevere — ihr kennt euch aus</div>
+        <div class="daysub">Freie Gestaltung — kein Programm nötig. Trastevere gehört euch.</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 13. MAI -->
+    <div class="section-title">Mittwoch, 13. Mai — Rom bis Mittag, dann Orbetello</div>
+
+    <div class="day">
+      <div class="daybadge d-free">Bis<br>12:00</div>
+      <div class="daycard">
+        <div class="daytitle">Freier Vormittag Rom</div>
+        <div class="daysub">Spätes Frühstück, letzter Espresso, Gepäck einstellen. Kein fixes Programm — nach Lust und Laune. Gegen 12:00 Auto holen und aufbrechen.</div>
+      </div>
+    </div>
+
+    <div class="transfer">
+      <div class="transfer-icon">🚗</div>
+      <div><strong>Fahrt: Rom → Orbetello</strong> &nbsp;·&nbsp; ~140 km, ca. 1h 45 min über A12 &amp; SS1
+        <a href="https://www.google.com/maps/dir/Trastevere,+Roma/Orbetello,+GR" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-coast">~14:00<br>Ankunft</div>
+      <div class="daycard">
+        <div class="daytitle">Orbetello — Ankunft &amp; Mittagessen</div>
+        <div class="daysub">Ankunft in der Lagunenstadt. Gepäck ins Hotel. Mittagessen am Hauptplatz oder am Wasser: Spaghetti alla Bottarga (Fischrogen-Spezialität der Maremma) oder frischer Fischgrill. Ideal: Ristorante Il Casale di Porto oder Trattoria Il Moletto.</div>
+        <div class="pills"><span class="pill p-food">Bottarga Pflicht</span></div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-coast">Nachmittag</div>
+      <div class="daycard">
+        <div class="daytitle">Orbetello: Lagune, Flamingos &amp; Festungsmauern</div>
+        <div class="daysub">Spaziergang entlang der Laguna di Orbetello — im Mai sind Flamingos und Reiher gut sichtbar (Riserva Naturale WWF). Spanische Festungsmauern und Pulvermühle (1693). Kleines historisches Zentrum: Duomo dell'Assunta, Via Dante. Entspanntes Schlendern ohne Massen-Tourismus.</div>
+        <div class="pills">
+          <span class="pill p-coast">Flamingos im Mai</span>
+          <a class="pill p-map" href="https://www.google.com/maps/search/Laguna+di+Orbetello" target="_blank">Maps: Lagune</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-coast">Abend</div>
+      <div class="daycard">
+        <div class="daytitle">Abendessen &amp; Übernachtung Orbetello</div>
+        <div class="daysub">Abendessen im Ort — Fischspezialitäten der Maremma: Cacciucco (Fischsuppe), gegrillter Branzino, lokale Weißweine (Vermentino, Ansonica). Ruhige Übernachtung im Hotel.</div>
+        <div class="pills"><span class="pill p-food">Cacciucco &amp; Vermentino</span></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 14. MAI -->
+    <div class="section-title">Donnerstag, 14. Mai — Civita di Bagnoregio &amp; Orvieto</div>
+
+    <div class="day">
+      <div class="daybadge d-coast">Früh<br>9:00</div>
+      <div class="daycard">
+        <div class="daytitle">Morgendliche Lagune — Flamingos &amp; Abfahrt</div>
+        <div class="daysub">Früher Morgenspaziergang an der Lagune (Flamingos sind morgens aktiver). Frühstück. Gepäck ins Auto. Abfahrt gegen 10:00–10:30 Richtung Civita di Bagnoregio.</div>
+        <div class="pills"><span class="pill p-coast">Flamingos am Morgen aktiver</span></div>
+      </div>
+    </div>
+
+    <div class="transfer">
+      <div class="transfer-icon">🚗</div>
+      <div><strong>Fahrt: Orbetello → Civita di Bagnoregio</strong> &nbsp;·&nbsp; ~110 km, ca. 1h 20 min über A1
+        <a href="https://www.google.com/maps/dir/Orbetello,+GR/Civita+di+Bagnoregio,+VT" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-city">~11:30<br>Civita</div>
+      <div class="daycard">
+        <div class="daytitle">Civita di Bagnoregio — das sterbende Dorf</div>
+        <div class="daysub">Mittelalterliches Dorf auf einem isolierten Tuffsteinfelsen, nur über eine 300 m lange Fußgängerbrücke erreichbar. Kaum Einwohner, aber eines der spektakulärsten Ortsbilder Italiens. Schmale Gassen, Ausblick über die erodierte Valle dei Calanchi. Eintritt Brücke: 5 € / Person. Ca. 1,5–2 h vor Ort. Mittagessen: Bar/Trattoria im Dorf (wenige, aber gut).</div>
+        <div class="pills">
+          <span class="pill p-culture">5 € Brückeneintritt</span>
+          <span class="pill p-warn">Auto bleibt unten im Parkplatz</span>
+          <a class="pill p-map" href="https://www.google.com/maps/search/Civita+di+Bagnoregio+Parkplatz" target="_blank">Maps: Parkplatz</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="transfer">
+      <div class="transfer-icon">🚗</div>
+      <div><strong>Fahrt: Civita di Bagnoregio → Orvieto</strong> &nbsp;·&nbsp; ~30 km, ca. 35 min
+        <a href="https://www.google.com/maps/dir/Civita+di+Bagnoregio,+VT/Orvieto,+TR" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-city">~14:00<br>Orvieto</div>
+      <div class="daycard">
+        <div class="daytitle">Ankunft Orvieto — Check-in &amp; Duomo</div>
+        <div class="daysub">Parken außerhalb der Mauern (Parkplatz Campo della Fiera, kostenlos, direkt bei Seilbahn). Funicular + Bus hoch in die Altstadt (ca. 5 min, 1,30 €). Check-in La Loggia del Mercante. Kurze Erfrischung, danach: Orvieto Duomo bestaunen (einer der schönsten gotischen Dome Italiens) und Orvieto Sotterranea (Führung durch etruskische Tunnels, ~1h, Voranmeldung empfohlen).</div>
+        <div class="pills">
+          <span class="pill p-tip">Parken: Campo della Fiera (kostenlos)</span>
+          <a class="pill p-map" href="https://www.google.com/maps/search/Parcheggio+Campo+della+Fiera+Orvieto" target="_blank">Maps: Parkplatz</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-wine">~15:30<br>Weingut</div>
+      <div class="daycard">
+        <div class="daytitle">Weinverkostung — Madonna del Latte (~2 h)</div>
+        <div class="daysub">Taxi vom Zentrum Orvieto (~20 min, ~25–30 € einfach). Boutique-Familienbetrieb in den Hügeln zwischen Orvieto und Lago di Bolsena. Vineyard-Spaziergang, etruskischer Tuffstein-Keller, Verkostung von 4 Bio-Weinen auf der Panoramaterrasse. Taralli-Snacks inklusive. Voranmeldung über GetYourGuide oder direkt — zwingend erforderlich, kein Walk-in!</div>
+        <div class="pills">
+          <span class="pill p-wine">4 Bio-Weine</span>
+          <span class="pill p-warn">Voranmeldung Pflicht!</span>
+          <a class="pill p-map" href="https://www.google.com/maps/search/Madonna+del+Latte+Winery+Orvieto" target="_blank">Maps: Weingut</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-wine">Abend</div>
+      <div class="daycard">
+        <div class="daytitle">Genussabend in Orvieto</div>
+        <div class="daysub">Zurück in der Altstadt (Taxi oder Fahrgemeinschaft mit dem Weingut abstimmen). Aperitivo auf der Terrasse mit Ausblick. Abendessen: Trüffelpasta (Schwarze Trüffel aus Norcia), Cinghiale (Wildschwein), Umbrico-Linsen. Empfehlung: Osteria dell'Angelo (authentisch, günstig) oder I Sette Consoli (gehoben, traumhafte Atmosphäre). Orvieto Classico DOC zum Abschluss.</div>
+        <div class="pills">
+          <span class="pill p-food">Trüffelpasta &amp; Cinghiale</span>
+          <span class="pill p-wine">Orvieto Classico DOC</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- 15. MAI -->
+    <div class="section-title">Freitag, 15. Mai — Orvieto morgens, Rückfahrt nach Rom</div>
+
+    <div class="day">
+      <div class="daybadge d-city">Früh<br>9:00</div>
+      <div class="daycard">
+        <div class="daytitle">Morgendliches Orvieto — Genießen ohne Hektik</div>
+        <div class="daysub">Frühstück im Café am Duomo (Bar Montanucci, Kult-Konditorei seit 1913). Spaziergang entlang der Stadtmauern mit Blick ins Val di Paglia. Pozzo di San Patrizio besichtigen (doppelspiralige Renaissancetreppe, 5 €). Enoteca für Mitbringsel: Orvieto Classico, schwarze Trüffel, Grappa.</div>
+        <div class="pills">
+          <span class="pill p-food">Bar Montanucci — Frühstück</span>
+          <span class="pill p-tip">Pozzo di San Patrizio ~5 €</span>
+          <a class="pill p-map" href="https://www.google.com/maps/search/Pozzo+di+San+Patrizio+Orvieto" target="_blank">Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-city">~11:00</div>
+      <div class="daycard">
+        <div class="daytitle">Einkaufen &amp; Gepäck holen</div>
+        <div class="daysub">Letzte Einkäufe: Il Negozio dei Vini (Wein), L'Arte del Gusto (Trüffelpasta, Olivenöl). Gepäck aus La Loggia. Funicular + Bus runter zum Auto am Campo della Fiera.</div>
+        <div class="pills"><span class="pill p-wine">Wein &amp; Trüffel als Mitbringsel</span></div>
+      </div>
+    </div>
+
+    <div class="transfer">
+      <div class="transfer-icon">🚗</div>
+      <div><strong>Fahrt: Orvieto → Rom (Fiumicino oder Zentrum)</strong> &nbsp;·&nbsp; ~130 km, ca. 1h 30 min über A1
+        <a href="https://www.google.com/maps/dir/Orvieto,+TR/Aeroporto+di+Roma+Fiumicino" target="_blank">Maps: Orvieto → FCO</a>
+        &nbsp;·&nbsp;
+        <a href="https://www.google.com/maps/dir/Orvieto,+TR/Roma" target="_blank">Maps: Orvieto → Rom Zentrum</a>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="daybadge d-travel">~13:00<br>Ankunft</div>
+      <div class="daycard">
+        <div class="daytitle">Ankunft Rom — Mietauto-Rückgabe</div>
+        <div class="daysub">Mietauto direkt am Flughafen zurückgeben (Terminal 3). Je nach Rückflug-Zeit: entweder direkt zum Gate oder noch ein letztes Mittag in Fiumicino (Ristorante Corsetti oder Airport-Lounge). Buon viaggio!</div>
+      </div>
+    </div>
+
+  </div><!-- /plan -->
+
+  <!-- ══════════════════ HOTELS ══════════════════ -->
+  <div id="hotels" class="section">
+
+    <!-- ROM -->
+    <div class="section-title">Unterkunft Rom — 12. Mai</div>
+
+    <div class="hotel-card top">
+      <div class="hotel-top">
+        <div>
+          <div class="hotel-name">Trastevere Attic — Raffaello's Rooms</div>
+          <div class="hotel-loc">Trastevere, Roma</div>
+        </div>
+        <div class="hotel-score">
+          <div class="score-num">9.0+</div>
+          <div class="score-lbl">Booking.com</div>
+        </div>
+      </div>
+      <div class="hotel-body">Euer gebuchtes Hotel. Charmante Zimmer in Trastevere, mitten im lebendigsten Viertel Roms. Freies WLAN, Klimaanlage. Check-in: 12. Mai ab ~15:00.</div>
+      <div class="link-row">
+        <a class="ext-link" href="https://www.booking.com/hotel/it/trastevere-attic-raffaellos-rooms.de.html" target="_blank">Booking.com</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Trastevere+Attic+Raffaello+Roma" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.2rem">Alternativen in Rom</div>
+
+    <div class="hotel-card">
+      <div class="hotel-top">
+        <div>
+          <div class="hotel-name">Hotel Santa Maria</div>
+          <div class="hotel-loc">Trastevere, Roma</div>
+        </div>
+        <div class="hotel-score">
+          <div class="score-num">9.2</div>
+          <div class="score-lbl">Booking.com</div>
+        </div>
+      </div>
+      <div class="hotel-body">Kleines Boutique-Hotel mit Innenhof-Orangengarten direkt in Trastevere. Sehr ruhig trotz zentraler Lage. Frühstück inklusive. Eines der romantischsten Hotels Roms.</div>
+      <div class="link-row">
+        <a class="ext-link" href="https://www.booking.com/hotel/it/santamaria.de.html" target="_blank">Booking.com</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Hotel+Santa+Maria+Trastevere+Roma" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-top">
+        <div>
+          <div class="hotel-name">Relais Le Clarisse</div>
+          <div class="hotel-loc">Trastevere, Roma</div>
+        </div>
+        <div class="hotel-score">
+          <div class="score-num">9.4</div>
+          <div class="score-lbl">Booking.com</div>
+        </div>
+      </div>
+      <div class="hotel-body">Ehemaliges Kloster mit wunderschönem Kreuzgang-Garten. Sehr ruhig, exzellenter Service. Gehobenes Preisniveau — für ein besonderes Erlebnis unschlagbar.</div>
+      <div class="link-row">
+        <a class="ext-link" href="https://www.booking.com/hotel/it/relais-le-clarisse.de.html" target="_blank">Booking.com</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Relais+Le+Clarisse+Trastevere+Roma" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ORBETELLO -->
+    <div class="section-title">Unterkunft Orbetello — 13. Mai</div>
+
+    <div class="hotel-card top">
+      <div class="hotel-top">
+        <div>
+          <div class="hotel-name">Hotel Prestige Orbetello</div>
+          <div class="hotel-loc">Orbetello, Maremma (GR)</div>
+        </div>
+        <div class="hotel-score">
+          <div class="score-num">8.6</div>
+          <div class="score-lbl">Booking.com</div>
+        </div>
+      </div>
+      <div class="hotel-body">Zentral in Orbetello, Nähe Lagune. Modernes Hotel, Klimaanlage, gutes Frühstück. Guter Ausgangspunkt für den Morgenspaziergang zur Flamingo-Lagune.</div>
+      <div class="link-row">
+        <a class="ext-link" href="https://www.booking.com/hotel/it/prestige-orbetello.de.html" target="_blank">Booking.com</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Hotel+Prestige+Orbetello" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-top">
+        <div>
+          <div class="hotel-name">Agriturismo Il Fenile</div>
+          <div class="hotel-loc">Maremma, nahe Orbetello</div>
+        </div>
+        <div class="hotel-score">
+          <div class="score-num">9.1</div>
+          <div class="score-lbl">Booking.com</div>
+        </div>
+      </div>
+      <div class="hotel-body">Schöner Agriturismo in der toskanischen Maremma — ruhige Lage, Pool, eigene Produkte zum Frühstück. Mit Auto ideal (10 min nach Orbetello). Authentischer als Stadthotel.</div>
+      <div class="link-row">
+        <a class="ext-link" href="https://www.booking.com/searchresults.de.html?ss=Orbetello&checkin=2026-05-13&checkout=2026-05-14" target="_blank">Booking.com — Orbetello suchen</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Agriturismo+Orbetello" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ORVIETO -->
+    <div class="section-title">Unterkunft Orvieto — 14. Mai</div>
+
+    <div class="hotel-card top">
+      <div class="hotel-top">
+        <div>
+          <div class="hotel-name">La Loggia del Mercante</div>
+          <div class="hotel-loc">Via Loggia dei Mercanti 20, Orvieto Altstadt</div>
+        </div>
+        <div class="hotel-score">
+          <div class="score-num">9.3</div>
+          <div class="score-lbl">Booking.com</div>
+        </div>
+      </div>
+      <div class="hotel-body">Euer gebuchtes Apartment. Historisches Gebäude mit dekorierten Originaldecken, 6 min zum Duomo, modernes Bad, Kitchenette, Klimaanlage. Self Check-in. Besonders gelobt: Lage 9.9, Komfort 9.6, Sauberkeit 9.5. Parken: Parkplatz Campo della Fiera (kostenlos, unterhalb der Stadtmauern, Seilbahn hoch).</div>
+      <div class="link-row">
+        <a class="ext-link" href="https://www.booking.com/hotel/it/la-loggia-del-mercante-orvieto.de.html" target="_blank">Booking.com</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/La+Loggia+del+Mercante+Orvieto" target="_blank">Google Maps</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Parcheggio+Campo+della+Fiera+Orvieto" target="_blank">Maps: Parkplatz</a>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:1.2rem">Alternativen in Orvieto</div>
+
+    <div class="hotel-card">
+      <div class="hotel-top">
+        <div>
+          <div class="hotel-name">Palazzo Piccolomini</div>
+          <div class="hotel-loc">Piazza Ranieri 36, Orvieto</div>
+        </div>
+        <div class="hotel-score">
+          <div class="score-num">9.1</div>
+          <div class="score-lbl">Booking.com</div>
+        </div>
+      </div>
+      <div class="hotel-body">Elegantes 4-Sterne-Hotel in einem Renaissance-Palast. Frühstück mit Ausblick, freundliches Personal, Zimmer mit alten Gewölbedecken. Direkt beim Pozzo della Cava.</div>
+      <div class="link-row">
+        <a class="ext-link" href="https://www.booking.com/hotel/it/palazzo-piccolomini-orvieto.de.html" target="_blank">Booking.com</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Palazzo+Piccolomini+Orvieto" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-top">
+        <div>
+          <div class="hotel-name">La Magnolia B&amp;B</div>
+          <div class="hotel-loc">100 m vom Duomo, Orvieto</div>
+        </div>
+        <div class="hotel-score">
+          <div class="score-num">9.5</div>
+          <div class="score-lbl">Booking.com</div>
+        </div>
+      </div>
+      <div class="hotel-body">Freskierte Wände, kostenloser Fahrrad-Verleih, Zimmer mit Balkon. Frühstück mit Cappuccino und Croissant inklusive. Top-Bewertungen für Atmosphäre und Sauberkeit.</div>
+      <div class="link-row">
+        <a class="ext-link" href="https://www.booking.com/hotel/it/b-b-la-magnolia-orvieto.de.html" target="_blank">Booking.com</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/La+Magnolia+Orvieto" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+  </div><!-- /hotels -->
+
+  <!-- ══════════════════ WEINVERKOSTUNG ══════════════════ -->
+  <div id="wine" class="section active" style="display:none">
+
+    <div class="section-title">Weinverkostung — Madonna del Latte, 14. Mai</div>
+
+    <div class="wine-card">
+      <div class="wine-title">Madonna del Latte — Boutique-Bio-Weingut</div>
+      <div class="wine-body">
+        Familiengeführtes Bio-Weingut in den Hügeln zwischen Orvieto und Lago di Bolsena, auf 450 m Seehöhe. Gegründet von den Eltern, heute von Sohn Leon (ausgebildet in Österreich, Kalifornien, Neuseeland) und seiner Partnerin Ruta weitergeführt.<br><br>
+        Das Programm (~2 h): Rundgang durch die Weinberge (vulkanischer Tuffboden), Besichtigung des etruskischen Fassgewölbekellers (wohl Jahrtausende altes Grabgewölbe), Einblick in moderne Fermentationsanlage. Anschließend sitzende Verkostung von <strong>4 handgefertigten Haus-Bio-Weinen</strong> auf der Panoramaterrasse mit Blick über die umbrische Hügellandschaft + Taralli-Snacks.
+      </div>
+      <div class="wine-grid">
+        <div class="wine-item"><strong>Anfahrt</strong>Taxi ab Orvieto Zentrum ~20 min, ~25–30 € einfach. Google Maps: "Madonna del Latte Winery" suchen — nicht Adresse eingeben!</div>
+        <div class="wine-item"><strong>Buchung</strong>Voranmeldung zwingend erforderlich — kein Spontanbesuch. Via GetYourGuide (unten) oder direkt auf madonnadellatte.it.</div>
+        <div class="wine-item"><strong>Preis</strong>~25–35 € / Person. "Reserve now, pay later" mit kostenlosem Storno bis 24h vorher möglich.</div>
+        <div class="wine-item"><strong>Sprache</strong>Führung auf Deutsch, Englisch und Italienisch — ihr könnt auf Deutsch kommunizieren.</div>
+        <div class="wine-item"><strong>Beste Uhrzeit</strong>14:00 oder 15:00 Uhr — danach noch Zeit für Abendessen in Orvieto.</div>
+        <div class="wine-item"><strong>Bewertung</strong>Durchgehend 5 Sterne auf TripAdvisor &amp; GetYourGuide. Sehr persönliche, familiäre Atmosphäre.</div>
+      </div>
+      <div class="link-row" style="margin-top:12px">
+        <a class="ext-link" href="https://www.getyourguide.com/de-de/orvieto-l1592/orvieto-klassische-weinverkostung-bei-madonna-del-latte-t1039174/" target="_blank">GetYourGuide — buchen</a>
+        <a class="ext-link" href="https://www.madonnadellatte.it/en/visits-and-tasting" target="_blank">Offizielle Webseite</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Madonna+del+Latte+Winery+Orvieto" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="section-title">Weitere Sehenswürdigkeiten</div>
+
+    <div class="hotel-card">
+      <div class="hotel-name" style="margin-bottom:5px">Civita di Bagnoregio</div>
+      <div class="hotel-body">Mittelalterliches Dorf auf isoliertem Tuffsteinfelsen, nur über 300 m lange Fußgängerbrücke erreichbar. Spektakuläre Valle dei Calanchi darunter. Eintritt Brücke: 5 €. Ca. 1,5–2 h. Im Reiseplan am 14. Mai vormittags eingeplant.</div>
+      <div class="link-row" style="margin-top:6px">
+        <a class="ext-link" href="https://www.comune.bagnoregio.vt.it" target="_blank">Infos</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Civita+di+Bagnoregio" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-name" style="margin-bottom:5px">Orvieto Sotterranea</div>
+      <div class="hotel-body">Geführte Tour durch etruskische Tunnel, Brunnen und Taubengehege unter der Altstadt. Täglich mehrmals, ~50 min. Voranmeldung empfohlen. Am 14. Mai nach Check-in ideal.</div>
+      <div class="link-row" style="margin-top:6px">
+        <a class="ext-link" href="https://www.orvietosotterranea.it" target="_blank">Tickets</a>
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Orvieto+Sotterranea" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-name" style="margin-bottom:5px">Orvieto Duomo &amp; Cappella di San Brizio</div>
+      <div class="hotel-body">Gotische Kathedrale, einer der eindrucksvollsten Italiens. Cappella di San Brizio: Signorelli-Fresken aus dem 15. Jh. — soll Michelangelo für die Sixtinische Kapelle inspiriert haben. Duomo Eintritt frei, Cappella ~5 €.</div>
+      <div class="link-row" style="margin-top:6px">
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Duomo+di+Orvieto" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-name" style="margin-bottom:5px">Pozzo di San Patrizio</div>
+      <div class="hotel-body">Doppelspiralige Wendelrampen-Treppe (1527) — zwei Esel-Rampen ohne Kreuzungspunkt. Technisches Meisterwerk der Renaissance. ~5 €, 15 min. Für den 15. Mai morgens eingeplant.</div>
+      <div class="link-row" style="margin-top:6px">
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Pozzo+di+San+Patrizio+Orvieto" target="_blank">Google Maps</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <div class="hotel-name" style="margin-bottom:5px">Orbetello Flamingo-Lagune</div>
+      <div class="hotel-body">Riserva Naturale WWF Diaccia Botrona — Flamingos und Reiher besonders morgens aktiv. Spaziergang entlang der Uferpromenade, spanische Festungsmauern. Im Reiseplan: Nachmittag 13. Mai + Morgen 14. Mai.</div>
+      <div class="link-row" style="margin-top:6px">
+        <a class="ext-link maps" href="https://www.google.com/maps/search/Laguna+di+Orbetello+Fenicotteri" target="_blank">Google Maps: Lagune</a>
+      </div>
+    </div>
+
+  </div><!-- /wine -->
+
+</div><!-- /container -->
+</div><!-- /main -->
+
+<script>
+  var PW = "rom26";
+  function checkPw() {
+    var v = document.getElementById("pw-input").value.trim();
+    if (v === PW) {
+      document.getElementById("pw-screen").style.display = "none";
+      document.getElementById("main").style.display = "block";
+    } else {
+      var e = document.getElementById("pw-error");
+      e.style.display = "block";
+      document.getElementById("pw-input").value = "";
+      document.getElementById("pw-input").focus();
+      setTimeout(function(){ e.style.display = "none"; }, 3000);
+    }
+  }
+  function show(id, el) {
+    document.querySelectorAll(".section").forEach(function(s){ s.classList.remove("active"); s.style.display="none"; });
+    document.querySelectorAll(".tab").forEach(function(t){ t.classList.remove("active"); });
+    var sec = document.getElementById(id);
+    sec.classList.add("active");
+    sec.style.display = "block";
+    el.classList.add("active");
+  }
+</script>
+</body>
+</html>

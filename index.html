@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rom & Toskana — Mai 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img,svg{display:block}
+a{text-decoration:none}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+
+/* ── TOKENS ── */
+:root{
+  --cream:     #F8F4EE;
+  --ivory:     #FFFFFF;
+  --ink:       #1E1A17;
+  --ink-mid:   #5A524A;
+  --ink-soft:  #9C9288;
+  --border:    #E5DDD4;
+  --border-hi: #C8BDB5;
+  --accent:    #B5472A;
+  --accent-bg: #F7EDE9;
+  --gold:      #9A6F30;
+  --gold-bg:   #F5EDD9;
+  --pine:      #2D5A27;
+  --pine-bg:   #EAF2E7;
+  --slate:     #1F3A5C;
+  --slate-bg:  #E8EFF7;
+  --sand:      #F1ECE4;
+
+  --ff-head: 'Playfair Display', Georgia, serif;
+  --ff-body: 'Outfit', system-ui, sans-serif;
+
+  --r:   6px;
+  --pad: 16px;
+}
+
+/* ── BASE ── */
+body{
+  font-family: var(--ff-body);
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ────────────────────────────────────────────
+   LOGIN
+──────────────────────────────────────────── */
+#pw-screen{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background: var(--cream);
+}
+.pw-shell{width:100%;max-width:340px;text-align:center}
+.pw-icon{font-size:44px;margin-bottom:18px;line-height:1}
+.pw-shell h1{
+  font-family: var(--ff-head);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.pw-shell p{font-size:13px;color:var(--ink-soft);margin-bottom:28px}
+.pw-box{
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px;
+}
+.pw-box label{
+  display:block;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-bottom:8px;
+  text-align:left;
+}
+.pw-box input{
+  display:block;
+  width:100%;
+  padding:11px 14px;
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  font-family:var(--ff-body);
+  font-size:16px;
+  letter-spacing:5px;
+  color:var(--ink);
+  background:var(--cream);
+  outline:none;
+  margin-bottom:12px;
+  transition:border-color .15s;
+}
+.pw-box input::placeholder{letter-spacing:normal;color:var(--border-hi)}
+.pw-box input:focus{border-color:var(--accent);background:var(--ivory)}
+.pw-box button{
+  width:100%;
+  padding:12px;
+  background:var(--ink);
+  color:var(--ivory);
+  border-radius:var(--r);
+  font-size:14px;
+  font-weight:500;
+  transition:background .15s;
+}
+.pw-box button:hover{background:var(--accent)}
+.pw-err{
+  display:none;
+  margin-top:12px;
+  padding:9px 12px;
+  background:var(--accent-bg);
+  border-radius:var(--r);
+  font-size:13px;
+  color:var(--accent);
+}
+.pw-foot{margin-top:18px;font-size:12px;color:var(--border-hi)}
+
+/* ────────────────────────────────────────────
+   MAIN SHELL
+──────────────────────────────────────────── */
+#main{display:none}
+.wrap{max-width:780px;margin:0 auto;padding:36px 20px 72px}
+
+/* ── PAGE HEADER ── */
+.pg-header{margin-bottom:24px}
+.pg-title{
+  font-family:var(--ff-head);
+  font-size:28px;
+  font-weight:500;
+  color:var(--ink);
+  margin-bottom:4px;
+}
+.pg-sub{
+  font-size:13px;
+  color:var(--ink-soft);
+  margin-bottom:14px;
+}
+.route-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 16px;
+  background:var(--ink);
+  color:var(--ivory);
+  border-radius:var(--r);
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.01em;
+  transition:background .15s;
+}
+.route-btn:hover{background:var(--accent)}
+
+/* ── TABS ── */
+.tabs{
+  display:flex;
+  border-bottom:1px solid var(--border);
+  margin:24px 0 28px;
+  gap:0;
+}
+.tab{
+  padding:10px 18px;
+  font-family:var(--ff-body);
+  font-size:13px;
+  font-weight:400;
+  color:var(--ink-soft);
+  background:transparent;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+  transition:color .15s, border-color .15s;
+  white-space:nowrap;
+}
+.tab:hover{color:var(--ink)}
+.tab.active{
+  color:var(--accent);
+  border-bottom-color:var(--accent);
+  font-weight:500;
+}
+.section{display:none}
+.section.active{display:block}
+
+/* ── SECTION TITLE ── */
+.sec-title{
+  font-family:var(--ff-head);
+  font-size:17px;
+  font-weight:500;
+  color:var(--ink);
+  padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+  margin:28px 0 16px;
+}
+.sec-title:first-child{margin-top:0}
+
+/* ── LEGEND ── */
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  column-gap:16px;
+  row-gap:6px;
+  margin-bottom:20px;
+}
+.leg{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ────────────────────────────────────────────
+   DAY ROW — strict grid for alignment
+──────────────────────────────────────────── */
+.day{
+  display:grid;
+  grid-template-columns:60px 1fr;
+  gap:10px;
+  margin-bottom:8px;
+  align-items:start;
+}
+
+/* Badge — all identical size/structure */
+.badge{
+  width:60px;
+  min-height:48px;
+  padding:6px 4px;
+  border-radius:var(--r);
+  font-size:10.5px;
+  font-weight:500;
+  text-align:center;
+  line-height:1.4;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.bd-travel { background:var(--slate-bg); color:var(--slate); }
+.bd-culture{ background:#EEEAF7;         color:#3A3080;      }
+.bd-wine   { background:var(--accent-bg);color:var(--accent); }
+.bd-coast  { background:var(--gold-bg);  color:var(--gold);  }
+.bd-free   { background:var(--sand);     color:var(--ink-mid);}
+.bd-food   { background:var(--pine-bg);  color:var(--pine);  }
+
+/* Card — all identical structure */
+.card{
+  background:var(--ivory);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:var(--pad);
+  min-width:0;
+}
+.card-title{
+  font-size:14px;
+  font-weight:500;
+  color:var(--ink);
+  margin-bottom:5px;
+}
+.card-body{
+  font-size:13px;
+  color:var(--ink-mid);
+  line-height:1.65;
+}
+.card-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:10px;
+}
+
+/* ── TRANSFER BANNER ── */
+.transfer{
+  display:grid;
+  grid-template-columns:28px 1fr auto;
+  align-items:center;
+  gap:10px;
+  background:var(--sand);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:10px var(--pad);
+  margin:8px 0;
+  font-size:13px;
+  color:var(--ink-mid);
+}
+.transfer-icon{font-size:16px;text-align:center}
+.transfer strong{color:var(--ink);font-weight:500}
+
+/* ── INFO BOX ── */
+.info-box{
+  background:var(--sand);
+  border-left:3px solid var(--accent);
+  border-radius:0 var(--r) var(--r) 0;
+  padding:10px var(--pad);
+  margin:8px 0;
+  font-size:13px;
+  color:var(--ink-mid);
+  line-height:1.65;
+}
+.info-box strong{color:var(--ink)}
+
+/* ────────────────────────────────────────────
+   BUTTONS — one system, multiple variants
+──────────────────────────────────────────── */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 12px;
+  border-radius:var(--r);
+  font-family:var(--ff-body);
+  font-size:12px;
+  font-weight:500;
+  white-space:nowrap;
+  transition:opacity .15s;
+  border:1px solid transparent;
+}
+.btn:hover{opacity:.75}
+
+.btn-book  { background:var(--accent-bg); color:var(--accent); border-color:#DDB5A8; }
+.btn-maps  { background:var(--slate-bg);  color:var(--slate);  border-color:#B8C8DC; }
+.btn-green { background:var(--pine-bg);   color:var(--pine);   border-color:#B0CC9E; }
+.btn-amber { background:var(--gold-bg);   color:var(--gold);   border-color:#D4B87A; }
+.btn-dark  { background:var(--ink);       color:var(--ivory);  }
+.btn-dl    { background:var(--pine);      color:var(--ivory);  }
+
+/* ────────────────────────────────────────────
+   BOOKING SECTION — hotel & car cards
+──────────────────────────────────────────── */
+
+/* Hotel card */
+.h-card{
+  background:var(--ivory);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:var(--pad);
+  margin-bottom:10px;
+}
+.h-card.featured{border-color:var(--accent);border-width:2px}
+.h-card.pending{
+  background:var(--sand);
+  border-style:dashed;
+  border-color:var(--border-hi);
+}
+
+.h-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  align-items:start;
+  margin-bottom:8px;
+}
+.h-name{font-size:14px;font-weight:500;color:var(--ink)}
+.h-loc {font-size:12px;color:var(--ink-soft);margin-top:2px}
+.h-price-num{
+  font-family:var(--ff-head);
+  font-size:22px;
+  font-weight:500;
+  color:var(--accent);
+  text-align:right;
+  line-height:1;
+}
+.h-price-lbl{font-size:11px;color:var(--ink-soft);text-align:right}
+.h-body{font-size:13px;color:var(--ink-mid);line-height:1.65;margin-bottom:10px}
+.h-links{display:flex;flex-wrap:wrap;gap:6px}
+
+/* Car card */
+.car-card{
+  background:var(--ivory);
+  border:2px solid var(--pine);
+  border-radius:var(--r);
+  padding:var(--pad);
+  margin-bottom:14px;
+}
+.car-header{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  align-items:start;
+  margin-bottom:14px;
+}
+.car-provider{
+  font-size:11px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--ink-soft);
+  margin-bottom:3px;
+}
+.car-name{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.car-paid-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:var(--pine-bg);
+  color:var(--pine);
+  font-size:11px;
+  font-weight:500;
+  padding:3px 9px;
+  border-radius:20px;
+}
+.car-price{
+  font-family:var(--ff-head);
+  font-size:28px;
+  font-weight:500;
+  color:var(--pine);
+  line-height:1;
+  text-align:right;
+}
+.car-price span{
+  display:block;
+  font-family:var(--ff-body);
+  font-size:11px;
+  color:var(--ink-soft);
+  font-weight:400;
+  margin-top:2px;
+  text-align:right;
+}
+
+/* Detail grid — strict 2-col, equal cells */
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:12px;
+}
+.detail-cell{
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:10px 12px;
+}
+.detail-cell .lbl{
+  font-size:10px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:var(--ink-soft);
+  margin-bottom:3px;
+}
+.detail-cell .val{
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink);
+  line-height:1.45;
+}
+.detail-cell .val small{
+  display:block;
+  font-size:11px;
+  font-weight:400;
+  color:var(--ink-soft);
+}
+.car-includes{
+  font-size:12px;
+  color:var(--ink-mid);
+  line-height:1.7;
+  padding:10px 12px;
+  background:var(--pine-bg);
+  border-radius:var(--r);
+  margin-bottom:12px;
+}
+.car-links{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ────────────────────────────────────────────
+   WINE SECTION
+──────────────────────────────────────────── */
+.wine-card{
+  background:var(--ivory);
+  border:2px solid var(--accent);
+  border-radius:var(--r);
+  padding:var(--pad);
+  margin-bottom:14px;
+}
+.wine-title{
+  font-family:var(--ff-head);
+  font-size:19px;
+  font-weight:500;
+  color:var(--ink);
+  margin-bottom:8px;
+}
+.wine-body{
+  font-size:13px;
+  color:var(--ink-mid);
+  line-height:1.7;
+  margin-bottom:14px;
+}
+.fact-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:14px;
+}
+.fact{
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:10px 12px;
+}
+.fact-lbl{
+  font-size:11px;
+  font-weight:500;
+  color:var(--ink);
+  margin-bottom:3px;
+}
+.fact-val{font-size:12px;color:var(--ink-mid);line-height:1.55}
+.wine-links{display:flex;flex-wrap:wrap;gap:8px}
+
+/* Tags */
+.tag{
+  display:inline-block;
+  font-size:11px;
+  font-weight:500;
+  padding:2px 9px;
+  border-radius:20px;
+  margin:2px 2px 0 0;
+}
+.tag-amber{background:var(--gold-bg);color:var(--gold)}
+.tag-blue {background:var(--slate-bg);color:var(--slate)}
+.tag-green{background:var(--pine-bg);color:var(--pine)}
+.tag-red  {background:var(--accent-bg);color:var(--accent)}
+
+/* Divider */
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+
+/* ── RESPONSIVE ── */
+@media(max-width:520px){
+  .detail-grid{grid-template-columns:1fr}
+  .car-header{grid-template-columns:1fr}
+  .car-price{text-align:left}
+  .fact-grid{grid-template-columns:1fr}
+  .h-row{grid-template-columns:1fr}
+  .h-price-num,.h-price-lbl{text-align:left}
+  .transfer{grid-template-columns:24px 1fr;row-gap:8px}
+  .transfer .btn{grid-column:1/-1}
+  .tab{padding:10px 12px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ LOGIN ═══════ -->
+<div id="pw-screen">
+  <div class="pw-shell">
+    <div class="pw-icon">🇮🇹</div>
+    <h1>Rom &amp; Toskana</h1>
+    <p>Privater Reiseplan · Mai 2026</p>
+    <div class="pw-box">
+      <label for="pwi">Passwort</label>
+      <input type="password" id="pwi" placeholder="••••••"
+             autocomplete="current-password"
+             onkeydown="if(event.key==='Enter')auth()">
+      <button onclick="auth()">Weiter →</button>
+      <div class="pw-err" id="pwerr">Falsches Passwort — bitte nochmal versuchen.</div>
+    </div>
+    <div class="pw-foot">Nur für eingeladene Reisende</div>
+  </div>
+</div>
+
+<!-- ═══════ MAIN ═══════ -->
+<div id="main">
+<div class="wrap">
+
+  <div class="pg-header">
+    <div class="pg-title">Rom &amp; Toskana — Mai 2026</div>
+    <div class="pg-sub">12.–15. Mai · Wien → Rom → Orbetello → Montepulciano → (Orvieto) → Rom · Fiat 500</div>
+    <a class="route-btn" href="https://maps.app.goo.gl/bWc8mTQKG5be19FVA" target="_blank">
+      🗺&nbsp; Komplette Reiseroute — Google Maps
+    </a>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show('plan',this)">Reiseplan</button>
+    <button class="tab" onclick="show('booking',this)">Buchungen</button>
+    <button class="tab" onclick="show('wine',this)">Weinverkostung &amp; Tipps</button>
+  </div>
+
+  <!-- ══════════════════════════════
+       REISEPLAN
+  ══════════════════════════════ -->
+  <div id="plan" class="section active">
+
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:var(--slate)"></div>Transfer / Fahrt</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--ink-soft)"></div>Freizeit</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--accent)"></div>Wein &amp; Genuss</div>
+      <div class="leg"><div class="leg-dot" style="background:#3A3080"></div>Kultur</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div>Küste &amp; Natur</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--pine)"></div>Essen</div>
+    </div>
+
+    <!-- ── 12. MAI ── -->
+    <div class="sec-title">Dienstag, 12. Mai — Ankunft Rom</div>
+
+    <div class="day">
+      <div class="badge bd-travel">15:00<br>FCO</div>
+      <div class="card">
+        <div class="card-title">Landung &amp; Mietauto-Abholung — Italy Car Rent</div>
+        <div class="card-body">Landung 15:00 (FR9443). Abholung ab 16:00 Uhr: Via dell'Aeroporto, 00054 Fiumicino — Beschilderung folgen, Key-Box vorhanden. Fiat 500 oder ähnlich. Fahrt Trastevere ~35 min.</div>
+        <div class="card-links">
+          <a class="btn btn-dl" href="italycarrent_voucher.pdf" download>⬇&nbsp;Voucher PDF</a>
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/Italy+Car+Rent+Fiumicino+Via+dell+Aeroporto" target="_blank">Abholung — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-travel">~17:00<br>Trastevere</div>
+      <div class="card">
+        <div class="card-title">Check-in Apartment &amp; Garage</div>
+        <div class="card-body">Via Benedetto Musolino 41, Scala C, Piano 8 · 00153 Roma.<br>Bestätigungs-Nr. 5470602347 · PIN 7731. Auto in nahegelegener Garage abstellen.</div>
+        <div class="card-links">
+          <a class="btn btn-book" href="https://www.booking.com/hotel/it/trastevere-attic-raffaellos-rooms.de.html" target="_blank">Booking.com</a>
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/Via+Benedetto+Musolino+41+Roma" target="_blank">Apartment — Maps</a>
+          <a class="btn btn-maps" href="https://maps.app.goo.gl/eEKsn77wg8d2sWyS8" target="_blank">Garage — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-free">Abend</div>
+      <div class="card">
+        <div class="card-title">Trastevere — freie Gestaltung</div>
+        <div class="card-body">Ihr kennt euch aus — kein festes Programm.</div>
+      </div>
+    </div>
+
+    <!-- ── 13. MAI ── -->
+    <div class="sec-title">Mittwoch, 13. Mai — Rom morgens, Orbetello nachmittags</div>
+
+    <div class="day">
+      <div class="badge bd-free">Bis<br>12:00</div>
+      <div class="card">
+        <div class="card-title">Freier Vormittag &amp; Abfahrt</div>
+        <div class="card-body">Spätes Frühstück, Espresso. Gepäck ins Auto. Gegen 12:00 aufbrechen.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://maps.app.goo.gl/eEKsn77wg8d2sWyS8" target="_blank">Garage — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box"><strong>Mittagessen:</strong> Küchen schließen 14:30–15:30 Uhr. Entweder noch in Rom essen — oder auf der Strecke ~1h nach Abfahrt anhalten.</div>
+
+    <div class="transfer">
+      <div class="transfer-icon">🚗</div>
+      <div><strong>Rom → Orbetello</strong> &nbsp;·&nbsp; ~140 km, ca. 1h 45 min über A12 / SS1</div>
+      <a class="btn btn-maps" href="https://www.google.com/maps/dir/Trastevere,+Roma/Orbetello,+GR" target="_blank">Maps</a>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-food">Auf dem<br>Weg</div>
+      <div class="card">
+        <div class="card-title">Mittagsstopp unterwegs</div>
+        <div class="card-body">Empfohlener Stopp auf der Strecke — oder spontan nach Bewertungen.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://maps.app.goo.gl/p4yKkVcjbddXbZKV7" target="_blank">Empfehlung — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-coast">14–16 Uhr<br>Ankunft</div>
+      <div class="card">
+        <div class="card-title">Orbetello — Ankommen &amp; Check-in</div>
+        <div class="card-body">Check-in Hotel (noch offen). Spaziergang Piazza della Repubblica, Domkirche, spanische Stadtmauern. Aperitivo auf der Piazza.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/Orbetello+centro+storico" target="_blank">Zentrum — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-coast">Nachmittag</div>
+      <div class="card">
+        <div class="card-title">Laguna di Orbetello — Flamingos &amp; Natur</div>
+        <div class="card-body">Riserva Naturale WWF Diaccia Botrona. Im Mai: Flamingos, Seidenreiher, Löffler. Spanische Festungsmauern.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/Laguna+di+Orbetello" target="_blank">Lagune — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-food">Abend</div>
+      <div class="card">
+        <div class="card-title">Abendessen &amp; Nacht Orbetello</div>
+        <div class="card-body">Fischspezialitäten der Maremma: Spaghetti alla Bottarga, Cacciucco, gegrillter Branzino. Vermentino oder Ansonica.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/ristorante+pesce+Orbetello" target="_blank">Restaurants — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 14. MAI ── -->
+    <div class="sec-title">Donnerstag, 14. Mai — Orbetello → Montepulciano</div>
+
+    <div class="day">
+      <div class="badge bd-coast">~9:00<br>Früh</div>
+      <div class="card">
+        <div class="card-title">Morgendliche Lagune &amp; Abfahrt</div>
+        <div class="card-body">Kurzer Morgenspaziergang (Flamingos morgens aktiver). Frühstück. Gepäck ins Auto. Abfahrt ~10:00.</div>
+      </div>
+    </div>
+
+    <div class="transfer">
+      <div class="transfer-icon">🚗</div>
+      <div><strong>Orbetello → Montepulciano</strong> &nbsp;·&nbsp; ~120 km, ca. 1h 30 min über A1</div>
+      <a class="btn btn-maps" href="https://www.google.com/maps/dir/Orbetello,+GR/Montepulciano,+SI" target="_blank">Maps</a>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-food">Mittagessen<br>~12:30</div>
+      <div class="card">
+        <div class="card-title">Mittagessen — Lokal noch zu wählen</div>
+        <div class="card-body">Lokal auf der Strecke oder bei Ankunft in Montepulciano noch zu recherchieren.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/ristorante+Montepulciano" target="_blank">Restaurants Montepulciano — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-wine">~13:30<br>Ankunft</div>
+      <div class="card">
+        <div class="card-title">Montepulciano — Check-in &amp; Altstadt</div>
+        <div class="card-body">Check-in Agriturismo (noch offen). Renaissance-Hügelstadt auf 568 m, von Vino Nobile-Weinbergen umgeben. Piazza Grande mit Dom und Palazzo Comunale.</div>
+        <div class="card-links">
+          <span class="tag tag-amber">Unterkunft noch offen</span>
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/agriturismo+Montepulciano" target="_blank">Agriturismi — Maps</a>
+          <a class="btn btn-book" href="https://www.booking.com/searchresults.de.html?ss=Montepulciano&checkin=2026-05-14&checkout=2026-05-15&group_adults=2&no_rooms=1" target="_blank">Booking.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-wine">Nachmittag</div>
+      <div class="card">
+        <div class="card-title">Vino Nobile Weingüter — Verkostungen</div>
+        <div class="card-body">Keller befinden sich direkt unter der Altstadt (Via del Gracciano). Top-Weingüter: Contucci (kostenlos, Altstadt), Avignonesi (Bio, Voranmeldung), Poliziano, Fattoria del Cerro.</div>
+        <div class="card-links">
+          <a class="btn btn-book" href="https://www.google.com/maps/search/cantina+vino+nobile+Montepulciano" target="_blank" style="background:var(--accent-bg);color:var(--accent);border-color:#DDB5A8">Weingüter — Maps</a>
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/Cantina+Contucci+Montepulciano" target="_blank">Contucci</a>
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/Avignonesi+Montepulciano" target="_blank">Avignonesi</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-food">Abend</div>
+      <div class="card">
+        <div class="card-title">Abendessen &amp; Nacht Montepulciano</div>
+        <div class="card-body">Abendessen auf dem Agriturismo oder in der Altstadt. Toskanische Küche: Pici al ragù, Bistecca, Pecorino di Pienza — dazu Vino Nobile.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/ristorante+Montepulciano+centro" target="_blank">Restaurants — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 15. MAI ── -->
+    <div class="sec-title">Freitag, 15. Mai — Rückfahrt, Abflug 19:00</div>
+
+    <div class="info-box"><strong>Zeitplan:</strong> Rückflug Wien 19:00 · FCO ab 16:00 · Abfahrt Montepulciano spätestens 13:30–14:00 · Orvieto optionaler Zwischenstopp (+30 min Umweg).</div>
+
+    <div class="day">
+      <div class="badge bd-free">~9:00<br>Früh</div>
+      <div class="card">
+        <div class="card-title">Freier Morgen Montepulciano</div>
+        <div class="card-body">Frühstück. Spaziergang Altstadt, Einkaufen: Vino Nobile, Pecorino, Olivenöl. Panoramablick Val di Chiana.</div>
+      </div>
+    </div>
+
+    <div class="transfer">
+      <div class="transfer-icon">🚗</div>
+      <div><strong>Montepulciano → (Orvieto opt.) → FCO</strong> &nbsp;·&nbsp; ~195 km, ca. 2h 15 min (mit Orvieto +30 min)</div>
+      <a class="btn btn-maps" href="https://www.google.com/maps/dir/Montepulciano,+SI/Orvieto,+TR/Aeroporto+di+Roma+Fiumicino" target="_blank">Maps</a>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-culture">Orvieto<br>opt.</div>
+      <div class="card">
+        <div class="card-title">Orvieto — optionaler Stopp (~1–2 h)</div>
+        <div class="card-body">Duomo bestaunen (von außen spektakulär, frei), Mittagessen, Einkaufen: Orvieto Classico DOC, Trüffelprodukte. Parken: Campo della Fiera (kostenlos). Abfahrt Richtung FCO spätestens 14:00.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/Parcheggio+Campo+della+Fiera+Orvieto" target="_blank">Parkplatz — Maps</a>
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/ristorante+Orvieto+centro" target="_blank">Restaurants — Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="badge bd-travel">~16:00<br>FCO</div>
+      <div class="card">
+        <div class="card-title">Fiumicino — Mietauto-Rückgabe &amp; Abflug 19:00</div>
+        <div class="card-body">Rückgabe Via dell'Aeroporto — Key-Box vorhanden. Rückgabe: 15.05. 16:00. Tel. +39 06 5655 7837. Check-in und Security 16:00–17:30 Uhr.</div>
+        <div class="card-links">
+          <a class="btn btn-maps" href="https://www.google.com/maps/search/Italy+Car+Rent+Fiumicino+Via+dell+Aeroporto" target="_blank">Rückgabe — Maps</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /plan -->
+
+  <!-- ══════════════════════════════
+       BUCHUNGEN
+  ══════════════════════════════ -->
+  <div id="booking" class="section">
+
+    <!-- MIETWAGEN -->
+    <div class="sec-title">Mietauto — Italy Car Rent · Bezahlt</div>
+
+    <div class="car-card">
+      <div class="car-header">
+        <div>
+          <div class="car-provider">Italy Car Rent · Buchungs-Nr. 1671920586</div>
+          <div class="car-name">Fiat 500 oder ähnlich</div>
+          <div class="car-paid-badge">✓&nbsp;Bezahlt</div>
+        </div>
+        <div>
+          <div class="car-price">€ 58,21<span>3 Tage · gesamt</span></div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-cell">
+          <div class="lbl">Abholung</div>
+          <div class="val">12. Mai · 16:00 Uhr<small>Roma Fiumicino Airport<br>Via dell'Aeroporto, 00054 Fiumicino</small></div>
+        </div>
+        <div class="detail-cell">
+          <div class="lbl">Rückgabe</div>
+          <div class="val">15. Mai · 16:00 Uhr<small>Roma Fiumicino Airport<br>Via dell'Aeroporto, 00054 Fiumicino</small></div>
+        </div>
+        <div class="detail-cell">
+          <div class="lbl">Fahrzeug</div>
+          <div class="val">Schaltgetriebe<small>4 Sitze · 3 Türen · Klimaanlage</small></div>
+        </div>
+        <div class="detail-cell">
+          <div class="lbl">Schlüsselübergabe</div>
+          <div class="val">Key-Box vorhanden<small>Flugnummer: FR9443</small></div>
+        </div>
+        <div class="detail-cell">
+          <div class="lbl">Telefon</div>
+          <div class="val">+39 06 5655 7837<small>Customer Care: +39 091 777 35 36</small></div>
+        </div>
+        <div class="detail-cell">
+          <div class="lbl">Kostenlose Stornierung</div>
+          <div class="val">bis 9. Mai · 16:00 Uhr</div>
+        </div>
+      </div>
+
+      <div class="car-includes">
+        <strong style="color:var(--pine)">Im Preis enthalten:</strong>&nbsp; Kfz-Steuer · Haftungsbeschränkung Schaden · Haftungsbeschränkung Diebstahl &amp; Brand · Flughafengebühren · MwSt. · Unbegrenzte Kilometer
+      </div>
+
+      <div class="car-links">
+        <a class="btn btn-dl" href="italycarrent_voucher.pdf" download>⬇&nbsp;Voucher als PDF</a>
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Italy+Car+Rent+Fiumicino+Via+dell+Aeroporto" target="_blank">Abholung — Maps</a>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Mitzubringen:</strong> Personalausweis oder Reisepass · gültiger Führerschein · Kreditkarte · Voucher (PDF oben). Flugnummer: <strong>FR9443</strong>.
+    </div>
+
+    <!-- APARTMENT ROM -->
+    <div class="sec-title">Apartment Rom — 12./13. Mai · Gebucht</div>
+
+    <div class="h-card featured">
+      <div class="h-row">
+        <div>
+          <div class="h-name">Trastevere Attic — Raffaello's Rooms</div>
+          <div class="h-loc">Via Benedetto Musolino 41, Scala C, Piano 8 · 00153 Roma</div>
+        </div>
+        <div>
+          <div class="h-price-num">€ 180</div>
+          <div class="h-price-lbl">Gesamtpreis</div>
+        </div>
+      </div>
+      <div class="h-body">
+        Apartment mit 1 Schlafzimmer im 8. Stock (Dachgeschoss), Terrasse mit Stadtblick, Trastevere.<br>
+        <strong>Check-in:</strong> 12. Mai &nbsp;·&nbsp; <strong>Check-out:</strong> 13. Mai<br>
+        <strong>Bestätigungs-Nr.:</strong> 5470602347 &nbsp;·&nbsp; <strong>PIN:</strong> 7731
+      </div>
+      <div class="h-links">
+        <a class="btn btn-book" href="https://www.booking.com/hotel/it/trastevere-attic-raffaellos-rooms.de.html" target="_blank">Booking.com</a>
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Via+Benedetto+Musolino+41+Roma+Trastevere" target="_blank">Apartment — Maps</a>
+        <a class="btn btn-maps" href="https://maps.app.goo.gl/eEKsn77wg8d2sWyS8" target="_blank">Garage — Maps</a>
+      </div>
+    </div>
+
+    <!-- ORBETELLO -->
+    <div class="sec-title">Hotel Orbetello — 13./14. Mai</div>
+
+    <div class="h-card pending">
+      <div class="h-row">
+        <div>
+          <div class="h-name" style="color:var(--ink-soft);font-style:italic">Noch nicht gebucht</div>
+          <div class="h-loc">Orbetello, Maremma · Check-in: 13. Mai</div>
+        </div>
+      </div>
+      <div class="h-body">Zentral in Orbetello (Lagunennähe) oder Agriturismo in der Maremma (~10 min mit Auto). Mai ist Nebensaison — gute Verfügbarkeit und faire Preise.</div>
+      <div class="h-links">
+        <a class="btn btn-book" href="https://www.booking.com/searchresults.de.html?ss=Orbetello&checkin=2026-05-13&checkout=2026-05-14&group_adults=2&no_rooms=1" target="_blank">Booking.com — Orbetello</a>
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/hotel+Orbetello" target="_blank">Hotels — Maps</a>
+      </div>
+    </div>
+
+    <!-- MONTEPULCIANO -->
+    <div class="sec-title">Agriturismo Montepulciano — 14./15. Mai</div>
+
+    <div class="h-card pending">
+      <div class="h-row">
+        <div>
+          <div class="h-name" style="color:var(--ink-soft);font-style:italic">Noch nicht gebucht</div>
+          <div class="h-loc">Montepulciano / Umgebung · Check-in: 14. Mai</div>
+        </div>
+      </div>
+      <div class="h-body">Empfehlung: Agriturismo in den Weinbergen rund um Montepulciano mit Blick auf Val di Chiana oder Val d'Orcia. Viele Betriebe bieten eigene Weinverkostungen und Abendessen an. Alternativ: Agriturismo nahe Pienza (~15 min).</div>
+      <div class="h-links">
+        <a class="btn btn-book" href="https://www.booking.com/searchresults.de.html?ss=Montepulciano&checkin=2026-05-14&checkout=2026-05-15&group_adults=2&no_rooms=1&nflt=property_type%3D5" target="_blank">Booking.com — Agriturismi</a>
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/agriturismo+Montepulciano" target="_blank">Agriturismi — Maps</a>
+      </div>
+    </div>
+
+  </div><!-- /booking -->
+
+  <!-- ══════════════════════════════
+       WEINVERKOSTUNG & TIPPS
+  ══════════════════════════════ -->
+  <div id="wine" class="section">
+
+    <div class="sec-title">Vino Nobile di Montepulciano — 14. Mai</div>
+
+    <div class="wine-card">
+      <div class="wine-title">Vino Nobile di Montepulciano DOCG</div>
+      <div class="wine-body">
+        Einer der ältesten und edelsten Rotweine Italiens — bereits 789 n. Chr. urkundlich erwähnt. Aus der Prugnolo-Gentile-Traube (Sangiovese-Klon), mindestens 2 Jahre im Holzfass gereift. Die Keller liegen zum Teil direkt unter den historischen Palazzi der Altstadt.
+      </div>
+      <div class="fact-grid">
+        <div class="fact">
+          <div class="fact-lbl">Contucci</div>
+          <div class="fact-val">Direkt in der Altstadt, Piazza Grande. Historische Keller unter dem Palazzo. Kostenlose Verkostung. Ältestes Weingut Montepulcianos.</div>
+        </div>
+        <div class="fact">
+          <div class="fact-lbl">Avignonesi</div>
+          <div class="fact-val">5 km außerhalb. Bio-Betrieb, legendärer Vin Santo. Geführte Touren mit Voranmeldung. ~30–50 €/Person.</div>
+        </div>
+        <div class="fact">
+          <div class="fact-lbl">Poliziano</div>
+          <div class="fact-val">Renommiertes Weingut mit schönem Ausblick. Führungen und Verkostungen nach Vereinbarung. Ausgezeichneter Vino Nobile Riserva.</div>
+        </div>
+        <div class="fact">
+          <div class="fact-lbl">Fattoria del Cerro</div>
+          <div class="fact-val">Touristenfreundlich, keine Voranmeldung nötig. Schöne Terrasse, guter Einstieg für Weinverkostungen.</div>
+        </div>
+      </div>
+      <div class="wine-links">
+        <a class="btn btn-book" href="https://www.google.com/maps/search/cantina+vino+nobile+Montepulciano" target="_blank">Alle Weingüter — Maps</a>
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Cantina+Contucci+Montepulciano" target="_blank">Contucci</a>
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Avignonesi+Montepulciano" target="_blank">Avignonesi</a>
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Poliziano+Montepulciano" target="_blank">Poliziano</a>
+      </div>
+    </div>
+
+    <div class="sec-title">Weitere Sehenswürdigkeiten</div>
+
+    <div class="h-card">
+      <div class="h-name" style="margin-bottom:6px">Montepulciano — Altstadt &amp; Piazza Grande</div>
+      <div class="h-body">Renaissance-Hügelstadt auf 568 m. Dom und Palazzo Comunale an der Piazza Grande. Alle Weinkeller liegen direkt am Corso.</div>
+      <div class="h-links" style="margin-top:8px">
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Piazza+Grande+Montepulciano" target="_blank">Piazza Grande — Maps</a>
+      </div>
+    </div>
+
+    <div class="h-card">
+      <div class="h-name" style="margin-bottom:6px">Orvieto — optionaler Stopp 15. Mai</div>
+      <div class="h-body">Gotischer Duomo (einer der schönsten Italiens). Pozzo di San Patrizio (~5 €). Einkaufen: Orvieto Classico DOC, Trüffelprodukte. Parken: Campo della Fiera (kostenlos).</div>
+      <div class="h-links" style="margin-top:8px">
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Duomo+di+Orvieto" target="_blank">Duomo — Maps</a>
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Parcheggio+Campo+della+Fiera+Orvieto" target="_blank">Parkplatz — Maps</a>
+      </div>
+    </div>
+
+    <div class="h-card">
+      <div class="h-name" style="margin-bottom:6px">Orbetello — Flamingo-Lagune</div>
+      <div class="h-body">Riserva Naturale WWF Diaccia Botrona. Flamingos, Seidenreiher — besonders morgens aktiv. Plan: Nachmittag 13. Mai + Morgen 14. Mai.</div>
+      <div class="h-links" style="margin-top:8px">
+        <a class="btn btn-maps" href="https://www.google.com/maps/search/Laguna+di+Orbetello+flamingos" target="_blank">Lagune — Maps</a>
+      </div>
+    </div>
+
+  </div><!-- /wine -->
+
+</div><!-- /wrap -->
+</div><!-- /main -->
+
+<script>
+var PW="rom26";
+function auth(){
+  var v=document.getElementById("pwi").value.trim();
+  if(v===PW){
+    document.getElementById("pw-screen").style.display="none";
+    document.getElementById("main").style.display="block";
+  } else {
+    var e=document.getElementById("pwerr");
+    e.style.display="block";
+    document.getElementById("pwi").value="";
+    document.getElementById("pwi").focus();
+    setTimeout(function(){e.style.display="none";},3000);
+  }
+}
+function show(id,el){
+  document.querySelectorAll(".section").forEach(function(s){
+    s.classList.remove("active");s.style.display="none";
+  });
+  document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active");});
+  var s=document.getElementById(id);
+  s.classList.add("active");s.style.display="block";
+  el.classList.add("active");
+}
+document.querySelectorAll(".section").forEach(function(s){s.style.display="none";});
+document.getElementById("plan").style.display="block";
+</script>
+</body>
+</html>
